@@ -13,15 +13,7 @@
   <!--Start of images-->
 
 
- <div class="img" id ="img"><!--
-    <a target="_blank" href="sony.jpg">
-      <img src= {{ url_for('static', filename = 'apple.png') }} width="16" height="16" alt="previous" title="Previous" border="0">
-    </a>
-    <div class="desc">Sony PX440 Digital Voice Recorder - Black</div>
-    <form action="action_page.php" id="urlsub">
-      Image url: <input type="text" name="user">
-      <input type="submit">
-    </form>-->
+ <div class="img" id ="img">
 
       <form action="" method="post">
         <input type="text" value="" id="imagename"/>
@@ -42,7 +34,7 @@
             $.ajax({
 						type: 'POST',
 						url: '/',
-						data: {'rank_p' : "POOOO",}
+						data: {'img' : src,}
 								});
         }
     </script>
