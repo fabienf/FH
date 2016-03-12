@@ -5,6 +5,7 @@ import logging
 import numpy as np
 
 from alchemy import Alchemy
+from oxford import Oxford
 from IPython import embed
 
 
@@ -14,6 +15,7 @@ class Extractor:
         self.alchemy_options = ['emotion']  # ['emotion', 'sentiment', 'main']
         self.data = self.json_file_to_obj(json_file)
         self.alchemy = Alchemy()
+        self.oxford = Oxford()
         logging.info("Ready to extract")
 
     def json_file_to_obj(self, json_file):
@@ -40,7 +42,7 @@ class Extractor:
             raise Exception('No data to extract')
 
         result_obj = {
-            "articles": []
+            "articles": [],
         }
 
         for idx, payload in enumerate(self.data):
@@ -54,7 +56,9 @@ class Extractor:
             article['title'] = payload['link_name']
             article['text'] = text
             article['real_url'] = url
-            article['alchemy'] = self.extract_alchemy_data(article['text'])
+            article['image_link'] = payload['image_link']
+            article['alchemy'] = self.extract_alchemy_data(text)
+            article['oxford'] = self.extract_oxford_vision_data(payload['image_link'])
             article['targets'] = {}
 
             # store targets
@@ -82,6 +86,9 @@ class Extractor:
                 obj[n] = combined[n]
 
         return obj
+
+    def extract_oxford_vision_data(self, url):
+        return self.oxford.run(url, target='emotion')
 
     def emotions_to_x_array(self, articles=None):
         """

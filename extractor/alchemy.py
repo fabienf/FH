@@ -29,7 +29,7 @@ class Alchemy:
         if response['status'] == 'OK':
             return response
         else:
-            logging.error('Error in concept tagging call: ', response['statusInfo'])
+            logging.error('Error in concept tagging call: ' + str(response['statusInfo']))
 
         return None
 
