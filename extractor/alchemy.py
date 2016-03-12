@@ -7,18 +7,32 @@ from IPython import embed
 
 class Alchemy:
 
-    def __init__(self, text):
-        self.text = text
+    def __init__(self):
+        logging.debug("Loading Alchemy...")
         self.alchemyapi = AlchemyAPI()
 
-    def run(self, option="combined"):
+    def run(self, data, option="combined"):
         if option == "combined":
-            return self.combined(self.text)
+            return self.combined(data)
+        elif option == "text":
+            return self.text(data)
         else:
             logging.error("Unhandled option:" + option)
 
+    def text(self, url):
+        logging.debug("[T] Requestions data from Alchemy...")
+        response = self.alchemyapi.text('url', url)
+        logging.debug("Fininshed!")
+
+        if response['status'] == 'OK':
+            return response
+        else:
+            logging.error('Error in concept tagging call: ', response['statusInfo'])
+
+        return None
+
     def combined(self, text):
-        logging.debug("Requestions data from Alchemy...")
+        logging.debug("[C] Requestions data from Alchemy...")
         response_default = self.alchemyapi.combined('text', text)
         response_sentiment = self.alchemyapi.combined('text', text, options={"extract": ('doc-sentiment')})
         response_emotion = self.alchemyapi.combined('text', text, options={"extract": ('doc-emotion')})
@@ -31,6 +45,6 @@ class Alchemy:
             return response
         else:
             # TODO: fix error msg
-            print('Error in concept tagging call: ', response_default['statusInfo'])
+            logging.error('Error in concept tagging call: ', response_default['statusInfo'])
 
         return None

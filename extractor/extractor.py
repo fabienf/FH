@@ -12,6 +12,7 @@ class Extractor:
 
     def __init__(self, json_file):
         self.data = self.json_file_to_obj(json_file)
+        self.alchemy = Alchemy()
         logging.info("Ready to extract")
 
     def json_file_to_obj(self, json_file):
@@ -44,14 +45,19 @@ class Extractor:
         for idx, payload in enumerate(self.data):
             logging.info("(" + str(idx + 1) + "/" + str(len(self.data)) + ") Extracting: " + payload['article_link'])
 
+            # get content and real url using Alchemy API
             article = {}
-            article['original_text'] = payload['text']
-            article['image_url'] = payload['image_url']
-            article['alchemy'] = self.extract_alchemy(payload)
+            text, url = self.extract_alchemy_text(payload['article_link'])
+
+            # assign calues to the article object
+            article['title'] = payload['link_name']
+            article['text'] = text
+            article['real_url'] = url
+            article['alchemy'] = self.extract_alchemy_data(article['text'])
             article['targets'] = {}
 
             # store targets
-            reactions = ['angry', 'haha', 'like', 'love', 'sad']
+            reactions = ['angry', 'haha', 'likes', 'love', 'sad']
             for r in reactions:
                 article['targets'][r] = payload[r]
 
@@ -59,9 +65,12 @@ class Extractor:
 
         return result_obj
 
-    def extract_alchemy(self, payload):
-        a = Alchemy(payload['text'])
-        alchemy_result = a.run('combined')
+    def extract_alchemy_text(self, url):
+        resutl = self.alchemy.run(url, option='text')
+        return resutl['text'], resutl['url']
+
+    def extract_alchemy_data(self, text):
+        alchemy_result = self.alchemy.run(text, option='combined')
 
         return self.convert_to_alchemy_template(alchemy_result)
 
@@ -74,7 +83,7 @@ class Extractor:
             'emotions': combined['docEmotions']
         }
 
-    def emotions_to_X_array(self):
+    def emotions_to_x_array(self):
         """
         returns X array NxM with emotion values,
         N = number of articles, M = 5 ordered emotions ['anger','disgust','fear','joy','sadness']
@@ -83,13 +92,13 @@ class Extractor:
         articles = self.extract()
         articles = articles['articles']
 
-        X = np.zeros([len(articles), 5])
+        x = np.zeros([len(articles), 5])
         for i in xrange(len(articles)):
             emotions = articles[i]['alchemy']['emotions']
             for (j, e) in enumerate(['anger', 'disgust', 'fear', 'joy', 'sadness']):
-                X[i, j] = emotions[e]
+                x[i, j] = emotions[e]
 
-        return X
+        return x
 
 if __name__ == "__main__":
     logging.basicConfig(format="\033[95m\r%(asctime)s - %(levelname)s - %(message)s\033[0m", level=logging.INFO)
@@ -101,4 +110,4 @@ if __name__ == "__main__":
     c = b['articles'][0]
     embed()
 
-    X = e.emotions_to_X_array()
+    X = e.emotions_to_x_array()
