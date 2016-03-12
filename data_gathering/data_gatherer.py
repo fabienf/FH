@@ -12,7 +12,7 @@ access_token = app_id + "|" + app_secret
 #page name
 page_id = 'bbcnews'
 #get post starting from date
-posts_start = datetime.datetime(2016, 3, 11)
+posts_start = datetime.datetime(2016, 3, 5)
 #boolean whether we are done
 reached_end = False
 #json data
