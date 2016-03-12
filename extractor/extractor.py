@@ -11,6 +11,7 @@ from IPython import embed
 class Extractor:
 
     def __init__(self, json_file):
+        self.alchemy_options = ['emotion']  # ['emotion', 'sentiment', 'main']
         self.data = self.json_file_to_obj(json_file)
         self.alchemy = Alchemy()
         logging.info("Ready to extract")
@@ -66,11 +67,11 @@ class Extractor:
         return result_obj
 
     def extract_alchemy_text(self, url):
-        resutl = self.alchemy.run(url, option='text')
+        resutl = self.alchemy.run(url, target='text')
         return resutl['text'], resutl['url']
 
     def extract_alchemy_data(self, text):
-        alchemy_result = self.alchemy.run(text, option='combined')
+        alchemy_result = self.alchemy.run(text, target='combined', options=self.alchemy_options)
 
         return self.convert_to_alchemy_template(alchemy_result)
 
