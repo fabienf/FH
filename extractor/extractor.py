@@ -2,7 +2,6 @@
 import sys
 import json
 import logging
-import numpy as np
 
 from alchemy import Alchemy
 from oxford import Oxford
@@ -92,25 +91,6 @@ class Extractor:
     def extract_oxford_vision_data(self, url):
         return self.oxford.run(url, target='emotion')
 
-    def emotions_to_x_array(self, articles=None):
-        """
-        returns X array NxM with emotion values,
-        N = number of articles, M = 5 ordered emotions ['anger','disgust','fear','joy','sadness']
-        """
-        # dictionary of aticles extracted from the IBM json
-        if articles is None:
-            articles = self.extract()
-
-        articles = articles['articles']
-
-        x = np.zeros([len(articles), 5])
-        for i in xrange(len(articles)):
-            emotions = articles[i]['alchemy']['emotions']
-            for (j, e) in enumerate(['joy', 'fear', 'disgust', 'sadness', 'anger']):
-                x[i, j] = emotions[e]
-
-        return x
-
 if __name__ == "__main__":
     logging.basicConfig(format="\033[95m\r%(asctime)s - %(levelname)s - %(message)s\033[0m", level=logging.INFO)
     logging.root.setLevel(logging.DEBUG)
@@ -120,5 +100,3 @@ if __name__ == "__main__":
     b = e.extract()
     c = b['articles'][0]
     embed()
-
-    X = e.emotions_to_x_array(b)
