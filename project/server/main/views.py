@@ -5,7 +5,7 @@
 #### imports ####
 #################
 
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, jsonify
 from flask import render_template, Blueprint, url_for, \
     redirect, flash, request,session
 
@@ -36,6 +36,7 @@ class VisionAPI:
     }
 
     body = {"URL": None}
+    dat = None
 
     def __init__(self):
         pass
@@ -51,7 +52,7 @@ class VisionAPI:
         return data
 
 
-
+vap = VisionAPI()
 
 
 @main_blueprint.route('/', methods=['GET', 'POST'])
@@ -59,10 +60,31 @@ class VisionAPI:
 
 def home():
     print request.form
+    vapi = None
     if request.method == 'POST':
-         vap = VisionAPI()
-         print vap.get_json(request.form["img"])
-    return render_template('main/home.html')
+
+         vapi = vap.get_json(request.form["img"])
+         vap.dat = {"img":vapi}
+        #  print vapi
+    return render_template('main/home.html', vap= vapi)
+
+
+
+@main_blueprint.route('/get_analysis')
+def get_analysis():
+    """
+    route to hold data to display
+    """
+    print "TEST"
+    x = None
+    print vap.dat
+    # print request.form
+    if 'img' not in vap.dat:
+        x = []
+    else:
+        x = vap.dat['img']
+    return jsonify(img=x, test='test')
+
 
 
 @main_blueprint.route("/about/")

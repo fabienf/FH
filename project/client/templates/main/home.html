@@ -36,6 +36,12 @@
 						url: '/',
 						data: {'img' : src,}
 								});
+
+            $.ajax({
+						type: 'POST',
+						url: '/get_analysis',
+						data: {'img' : src,}
+								});
         }
     </script>
 
