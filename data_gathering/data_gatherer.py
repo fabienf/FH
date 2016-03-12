@@ -78,7 +78,7 @@ def getFacebookPageFeedData(page_id, access_token, num_statuses):
     # construct the URL string
     base = "https://graph.facebook.com"
     node = "/" + page_id + "/feed" 
-    parameters = "/?fields=message,link,created_time,type,name,id,likes.limit(1).summary(true),comments.limit(1).summary(true),shares&limit=%s&access_token=%s" % (num_statuses, access_token) # changed
+    parameters = "/?fields=message,link,created_time,type,name,id,likes.limit(1).summary(true),comments.limit(1).summary(true),shares,picture&limit=%s&access_token=%s" % (num_statuses, access_token) # changed
     url = base + node + parameters
     
     # retrieve data
@@ -103,6 +103,9 @@ def processFacebookPageFeedStatus(status):
     if str(status_type)!='link':
     	return None
     status_link = '' if 'link' not in status.keys() else status['link']
+
+    #transform low res link into a link on bbc
+    picture = status['picture'].split('url=')[1].split('&')[0].replace('%3A',':').replace('%2F','/')
     
     
     # Time needs special care since a) it's in UTC and
@@ -126,7 +129,7 @@ def processFacebookPageFeedStatus(status):
     likes,love,wow,haha,sad,angry = getReactionsFromPost(browser,status_id.split('_')[1])
 
     print link_name + " "+ status_published
-    new_line = {"link_name":link_name,"article_link":status_link,"likes":likes,"love":love,"wow":wow,"haha":haha,"sad":sad,"angry":angry}
+    new_line = {"link_name":link_name,"article_link":status_link,"image_link":picture,"likes":likes,"love":love,"wow":wow,"haha":haha,"sad":sad,"angry":angry}
     return new_line
 
 
@@ -140,7 +143,7 @@ def scrapeFacebookPageFeedStatus(page_id, access_token):
         
         #get first posts
         statuses = getFacebookPageFeedData(page_id, access_token, 100)
-        
+
         #keep going for all posts
         while not reached_end and has_next_page:
             for status in statuses['data']:
