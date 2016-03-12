@@ -1,6 +1,7 @@
 
 import sys
 import json
+import numpy as np
 
 from alchemy import Alchemy
 from IPython import embed
@@ -63,9 +64,29 @@ class Extractor:
             'emotions': combined['docEmotions']
         }
 
+    def emotions_to_X_array(self):
+        """
+        returns X array NxM with emotion values, 
+        N = number of articles, M = 5 ordered emotions ['anger','disgust','fear','joy','sadness'] 
+        """
+        # dictionary of aticles extracted from the IBM json 
+        articles = self.extract()
+        articles = articles['articles']
+
+        X = np.zeros([len(articles),5])
+        for i in xrange(len(articles)):
+            emotions = articles[i]['alchemy']['emotions']
+            for (j,e) in enumerate(['anger','disgust','fear','joy','sadness']):
+                X[i,j] = emotions[e]
+
+        return X
+
 if __name__ == "__main__":
     json_file = '../data_gathering/bbc_data/bbc_raw_with_links.json'
     e = Extractor(json_file)
     b = e.extract()
     c = b['articles'][0]['alchemy']
     embed()
+
+    X = e.emotions_to_X_array()
+
