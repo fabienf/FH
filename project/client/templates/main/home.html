@@ -8,28 +8,139 @@
   </div>
   <br></br>
 
-  <h2 id="products-top">Picture maybe here</h2>
+  <h2 id="products-top" class="tooltip">Picture maybe here</h2>
 
   <!--Start of images-->
 
-
- <div class="img" id ="img">
+<!-- <p><a class="tooltip" >Roll over for tooltip</a></p> -->
+ <div class="img" id ="img" onmousemove="getPos(event)">
 
       <form action="" method="post">
         <input type="text" value="" id="imagename"/>
         <input type="button" id="btn" value="analyyse" formmethod="POST" />
     </form>
+    <label>test</label>
   </div>
 
     <script type="text/javascript">
         console.log(document.getElementById('imagename').value);
+        d = 0
+        function arg(arr){
+          max = -Infinity,
+          argmax = void(0);
+          for(var key in arr) {
+            if(arr[key] >= max) {
+                max = obj[i];
+                argmax = key;
+            }
+          }
+          return argmax;
+       }
+
+
+        function getPos(e){
+        x=e.clientX;
+        y=e.clientY;
+        // cursor="Your Mouse Position Is : " + x + " and " + y ;
+        // console.log(this.offsetLeft );
+        var x1 = (e.pageX - $('div.img').offset().left) //+ $(window).scrollLeft();
+
+        var y1 = (e.pageY - $('div.img').offset().top) -28//+ $(window).scrollTop();
+        // console.log(x1)
+        d = [x1 , y1]
+        // document.getElementById("displayArea").innerHTML=cursor;
+        // console.log(cursor)
+       }
+
+
+
+        function worker() {
+          // console.log("FAIL")
+        $.ajax({
+          dataType: "json",
+          url: '/get_analysis',
+          success: function(data) {
+            // console.log(JSON.parse(data["img"]) );
+            object = JSON.parse(data["img"]);
+
+            for(i=0; i<object.length; i++){
+                obj = object[i];
+                rect = obj.faceRectangle;
+                height = rect.height;
+                left = rect.left;
+                top1 = rect.top;
+                width = rect.width;
+                // console.log(d);
+                // console.log("FUUUUCK")
+                // console.log(i)
+                // console.log(rect.height +rect.top)
+                // console.log(rect.left)
+                // console.log(rect.top)
+                // console.log(rect.left - rect.width)
+                // console.log("FUUUUCK")
+                if (d!=0 && d[0]<= rect.left+rect.width && d[0] >= rect.left && d[1] >= rect.top && d[1] <= rect.top + rect.height){
+                    //  console.log(obj.scores);
+                    //  console.log(i);
+                     arr = obj.scores;
+                       max = -Infinity,
+                       argmax = void(0);
+                       for(var key in arr) {
+                         if(arr[key] >= max) {
+                             max = arr[key];
+                             argmax = key;
+                         }
+                       }
+
+                    //  ;
+                     $("#tooltip").remove();
+                      $("div.img.img").append("<p id='tooltip'>"+ argmax.replace("\"","").replace("'", "")+"</p>");
+                    	$("#tooltip")
+                    		.css("top",((rect.top + $('div.img').offset().top) +28) + "px")
+                    		.css("left",(rect.left + $('div.img').offset().left ) + "px")
+                    		.fadeIn("fast");
+                }else{
+                  // try{
+                  //
+                  //   if ($("#tooltip")!= undefined){
+                  //     var now = new Date().getTime();
+                  //     while(new Date().getTime() < now + 2000){ /* do nothing */ }
+                  //     $("#tooltip").remove();
+                  //   }
+                  // }
+                  // catch(err){
+                  //   console.log("");
+                  // }
+                }
+            }
+
+
+          },
+          complete: function() {
+
+        // Schedule the next request when the current one's complete
+            // setTimeout(worker, 100);
+             }
+        });
+        };
+        //The delay is here to give time to the back end to post the
+        // walk in the get walk route before attempting to draw.
+        setInterval(worker,1000);
+
+        x = false;
         document.getElementById('btn').onclick = function() {
             var val = document.getElementById('imagename').value,
                 src =  val ,
                 img = document.createElement('img');
 
             img.src = src;
+
+            try{
+              document.getElementById('img').children[2].remove();
+            }catch(err){
+
+            }
             document.getElementById('img').appendChild(img);
+            x = true;
             // document.body.appendChild(img);
             $.ajax({
 						type: 'POST',
