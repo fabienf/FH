@@ -12,7 +12,7 @@ from IPython import embed
 class Extractor:
 
     def __init__(self, json_file):
-        self.alchemy_options = ['emotion']  # ['emotion', 'sentiment', 'main']
+        self.alchemy_options = ['main', 'sentiment', 'emotion']  # ['emotion', 'sentiment', 'main']
         self.data = self.json_file_to_obj(json_file)
         self.alchemy = Alchemy()
         self.oxford = Oxford()
@@ -68,6 +68,8 @@ class Extractor:
 
             result_obj['articles'].append(article)
 
+            break
+
         return result_obj
 
     def extract_alchemy_text(self, url):
@@ -81,7 +83,7 @@ class Extractor:
 
     def convert_to_alchemy_template(self, combined):
         obj = {}
-        for n in ['keywords', 'docSentiment', 'taxonomy', 'concepts', 'docEmotions']:
+        for n in ['keywords', 'taxonomy', 'concepts', 'entities', 'docEmotions', 'docSentiment']:
             if n in combined:
                 obj[n] = combined[n]
 

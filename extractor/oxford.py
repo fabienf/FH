@@ -31,4 +31,4 @@ class Oxford:
         data = response.read()
         conn.close()
 
-        return data
+        return json.loads(data)

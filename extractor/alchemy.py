@@ -40,6 +40,11 @@ class Alchemy:
         for n in options:
             if n == "main":
                 response = self.combined_helper(text)
+                result[u'entities'] = response['entities']
+                result[u'taxonomy'] = response['taxonomy']
+                result[u'concepts'] = response['concepts']
+                result[u'keywords'] = response['keywords']
+
                 result = response
             elif n == "sentiment":
                 response = self.combined_helper(text, options={"extract": ('doc-sentiment')})
