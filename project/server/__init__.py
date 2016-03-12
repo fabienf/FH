@@ -43,9 +43,9 @@ db = SQLAlchemy(app)
 ### blueprints ####
 ###################
 
-from project.server.user.views import user_blueprint
+# from project.server.user.views import user_blueprint
 from project.server.main.views import main_blueprint
-app.register_blueprint(user_blueprint)
+# app.register_blueprint(user_blueprint)
 app.register_blueprint(main_blueprint)
 
 
@@ -53,15 +53,11 @@ app.register_blueprint(main_blueprint)
 ### flask-login ####
 ###################
 
-from project.server.models import User
+
 
 login_manager.login_view = "user.login"
 login_manager.login_message_category = 'danger'
 
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.filter(User.id == int(user_id)).first()
 
 
 ########################

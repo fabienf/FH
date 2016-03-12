@@ -11,6 +11,7 @@ from IPython import embed
 class Extractor:
 
     def __init__(self, json_file):
+        self.alchemy_options = ['emotion']  # ['emotion', 'sentiment', 'main']
         self.data = self.json_file_to_obj(json_file)
         self.alchemy = Alchemy()
         logging.info("Ready to extract")
@@ -66,22 +67,21 @@ class Extractor:
         return result_obj
 
     def extract_alchemy_text(self, url):
-        resutl = self.alchemy.run(url, option='text')
+        resutl = self.alchemy.run(url, target='text')
         return resutl['text'], resutl['url']
 
     def extract_alchemy_data(self, text):
-        alchemy_result = self.alchemy.run(text, option='combined')
+        alchemy_result = self.alchemy.run(text, target='combined', options=self.alchemy_options)
 
         return self.convert_to_alchemy_template(alchemy_result)
 
     def convert_to_alchemy_template(self, combined):
-        return {
-            'keywords': combined['keywords'],
-            'sentiment': combined['docSentiment'],
-            'taxonomy': combined['taxonomy'],
-            'concepts': combined['concepts'],
-            'emotions': combined['docEmotions']
-        }
+        obj = {}
+        for n in ['keywords', 'docSentiment', 'taxonomy', 'concepts', 'docEmotions']:
+            if n in combined:
+                obj[n] = combined[n]
+
+        return obj
 
     def emotions_to_x_array(self, articles=None):
         """
@@ -89,7 +89,7 @@ class Extractor:
         N = number of articles, M = 5 ordered emotions ['anger','disgust','fear','joy','sadness']
         """
         # dictionary of aticles extracted from the IBM json
-        if articles==None:
+        if articles is None:
             articles = self.extract()
 
         articles = articles['articles']
