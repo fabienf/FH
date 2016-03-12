@@ -1,8 +1,11 @@
 import numpy as np
 from sklearn import neighbors, datasets, preprocessing
 from pprint import pprint
+
 def decodeEmotions(emotions):
     """
+    Basic version
+    
     Function that takes vector of emotions with real numbers
     and outputs predicted reaction on FB
 
@@ -29,11 +32,32 @@ def decodeEmotions(emotions):
     
 
 def makeClassifier(X, targets, n_neighbors = 1, weights = 'distance'):
+    """
+    Arguments: 
+    @X: list of  [joy fear disgust sadness angry]
+    i.e. X = [[0.8, 0.05, 0.05, 0.01, 0.09]]
+    @targets: list of [love haha wow sad angry]
+    i.e. targets = [[0, 0, 0, 0, 1]]
+    
+    Returns:
+    @clf: kNN classifier 
+    """
     clf = neighbors.KNeighborsClassifier(n_neighbors, weights=weights)
     clf.fit(X, targets)
     return clf
     
 def predictReactions(clf, testset):
+    """
+    Given clf classifier and testset, classify it
+    Arguments:
+    @clf: sklearn classifier 
+    @testset: list of  [joy fear disgust sadness angry]
+    i.e. testset = [[0.8, 0.05, 0.05, 0.01, 0.09]]
+    
+    Returns: 
+    @predictions: list of [love haha wow sad angry]
+    i.e. predictions = [[0, 0, 0, 0, 1]]
+    """
     return clf.predict(testset)
     
 if __name__ == "__main__":
