@@ -57,10 +57,10 @@ class Extractor:
     def convert_to_alchemy_template(self, combined):
         return {
             'keywords': combined['keywords'],
-            'sentiment': None,
+            'sentiment': combined['docSentiment'],
             'taxonomy': combined['taxonomy'],
             'concepts': combined['concepts'],
-            'emotions': None
+            'emotions': combined['docEmotions']
         }
 
 if __name__ == "__main__":
@@ -68,4 +68,4 @@ if __name__ == "__main__":
     e = Extractor(json_file)
     b = e.extract()
     c = b['articles'][0]['alchemy']
-    # embed()
+    embed()

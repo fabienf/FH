@@ -1,5 +1,6 @@
 
 from alchemyapi_python.alchemyapi import AlchemyAPI
+from IPython import embed
 
 
 class Alchemy:
@@ -15,11 +16,17 @@ class Alchemy:
             print("Unhandled option:" + option)
 
     def combined(self, text):
-        response = self.alchemyapi.combined('text', text)
+        response_default = self.alchemyapi.combined('text', text)
+        response_sentiment = self.alchemyapi.combined('text', text, options={"extract": ('doc-sentiment')})
+        response_emotion = self.alchemyapi.combined('text', text, options={"extract": ('doc-emotion')})
 
-        if response['status'] == 'OK':
+        if response_default['status'] == 'OK' and response_sentiment['status'] == 'OK' and response_emotion['status'] == 'OK':
+            response = response_default
+            response[u'docSentiment'] = response_sentiment['docSentiment']
+            response[u'docEmotions'] = response_emotion['docEmotions']
             return response
         else:
-            print('Error in concept tagging call: ', response['statusInfo'])
+            # TODO: fix error msg
+            print('Error in concept tagging call: ', response_default['statusInfo'])
 
         return None
