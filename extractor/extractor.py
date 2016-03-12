@@ -104,7 +104,7 @@ class Extractor:
         x = np.zeros([len(articles), 5])
         for i in xrange(len(articles)):
             emotions = articles[i]['alchemy']['emotions']
-            for (j, e) in enumerate(['anger', 'disgust', 'fear', 'joy', 'sadness']):
+            for (j, e) in enumerate(['joy', 'fear', 'disgust', 'sadness', 'anger']):
                 x[i, j] = emotions[e]
 
         return x
