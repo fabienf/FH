@@ -125,7 +125,7 @@ def processFacebookPageFeedStatus(status):
     ####### Get reactions, split t get the post number, separating from group num which we don't need
     likes,love,wow,haha,sad,angry = getReactionsFromPost(browser,status_id.split('_')[1])
 
-    print link_name
+    print link_name + " "+ status_published
     new_line = {"link_name":link_name,"article_link":status_link,"likes":likes,"love":love,"wow":wow,"haha":haha,"sad":sad,"angry":angry}
     return new_line
 
