@@ -1,6 +1,7 @@
 
 import sys
 import json
+import logging
 
 from alchemy import Alchemy
 from IPython import embed
@@ -10,7 +11,7 @@ class Extractor:
 
     def __init__(self, json_file):
         self.data = self.json_file_to_obj(json_file)
-        print "Ready to extract"
+        logging.info("Ready to extract")
 
     def json_file_to_obj(self, json_file):
         try:
@@ -21,7 +22,7 @@ class Extractor:
             obj = json.loads(json_data)
             return obj
         except SyntaxError:
-            print("JSON input has invalid format! Bye.")
+            logging.error("JSON input has invalid format! Bye.")
             sys.exit(0)
 
         return None
@@ -39,7 +40,9 @@ class Extractor:
             "articles": []
         }
 
-        for payload in self.data:
+        for idx, payload in enumerate(self.data):
+            logging.info("(" + str(idx + 1) + "/" + str(len(self.data)) + ") Extracting: " + payload['article_link'])
+
             article = {}
             article['original_text'] = payload['text']
             article['image_url'] = payload['image_url']
@@ -71,8 +74,11 @@ class Extractor:
         }
 
 if __name__ == "__main__":
-    json_file = '../data_gathering/bbc_data/bbc_raw_with_links.json'
+    logging.basicConfig(format="\033[95m\r%(asctime)s - %(levelname)s - %(message)s\033[0m", level=logging.INFO)
+    logging.root.setLevel(logging.DEBUG)
+
+    json_file = '../data_gathering/bbc_data_10 articles.json'
     e = Extractor(json_file)
     b = e.extract()
-    c = b['articles'][0]
-    embed()
+    # c = b['articles'][0]
+    # embed()

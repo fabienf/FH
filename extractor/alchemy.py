@@ -1,4 +1,6 @@
 
+import logging
+
 from alchemyapi_python.alchemyapi import AlchemyAPI
 from IPython import embed
 
@@ -13,12 +15,14 @@ class Alchemy:
         if option == "combined":
             return self.combined(self.text)
         else:
-            print("Unhandled option:" + option)
+            logging.error("Unhandled option:" + option)
 
     def combined(self, text):
+        logging.debug("Requestions data from Alchemy...")
         response_default = self.alchemyapi.combined('text', text)
         response_sentiment = self.alchemyapi.combined('text', text, options={"extract": ('doc-sentiment')})
         response_emotion = self.alchemyapi.combined('text', text, options={"extract": ('doc-emotion')})
+        logging.debug("Fininshed!")
 
         if response_default['status'] == 'OK' and response_sentiment['status'] == 'OK' and response_emotion['status'] == 'OK':
             response = response_default
