@@ -23,9 +23,9 @@
       <input type="submit">
     </form>-->
 
-      <form>
+      <form action="" method="post">
         <input type="text" value="" id="imagename"/>
-        <input type="button" id="btn" value="GO" />
+        <input type="button" id="btn" value="analyyse" formmethod="POST" />
     </form>
   </div>
 
@@ -39,6 +39,11 @@
             img.src = src;
             document.getElementById('img').appendChild(img);
             // document.body.appendChild(img);
+            $.ajax({
+						type: 'POST',
+						url: '/',
+						data: {'rank_p' : "POOOO",}
+								});
         }
     </script>
 

@@ -6,6 +6,8 @@
 #################
 
 from flask import render_template, Blueprint
+from flask import render_template, Blueprint, url_for, \
+    redirect, flash, request,session
 
 
 ################
@@ -20,8 +22,13 @@ main_blueprint = Blueprint('main', __name__,)
 ################
 
 
-@main_blueprint.route('/')
+@main_blueprint.route('/', methods=['GET', 'POST'])
+# @user_blueprint.route('/register')
+
 def home():
+    print request.form
+    if request.method == 'POST':
+         print "TEEEEEST"
     return render_template('main/home.html')
 
 
