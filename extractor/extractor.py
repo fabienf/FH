@@ -42,7 +42,14 @@ class Extractor:
         for payload in self.data:
             article = {}
             article['original_text'] = payload['text']
+            article['image_url'] = payload['image_url']
             article['alchemy'] = self.extract_alchemy(payload)
+            article['targets'] = {}
+
+            # store targets
+            reactions = ['angry', 'haha', 'like', 'love', 'sad']
+            for r in reactions:
+                article['targets'][r] = payload[r]
 
             result_obj['articles'].append(article)
 
@@ -67,5 +74,5 @@ if __name__ == "__main__":
     json_file = '../data_gathering/bbc_data/bbc_raw_with_links.json'
     e = Extractor(json_file)
     b = e.extract()
-    c = b['articles'][0]['alchemy']
+    c = b['articles'][0]
     embed()
