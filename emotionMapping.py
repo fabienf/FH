@@ -4,9 +4,7 @@ from pprint import pprint
 
 def decodeEmotions(emotions):
     """
-    Basic version
-    
-    Function that takes vector of emotions with real numbers
+    [Basic version] Function that takes vector of emotions with real numbers
     and outputs predicted reaction on FB
 
     Argument: 
@@ -21,7 +19,7 @@ def decodeEmotions(emotions):
     if maxE == 0: 
         # joy -> haha, love
         return [0.5, 0.5, 0, 0, 0]
-    if maxE == 1 or max == 2:
+    if maxE == 1 or maxE == 2:
         # fear, disgust -> wow
         return [0, 0, 1, 0, 0]
     if maxE == 3:
@@ -31,6 +29,46 @@ def decodeEmotions(emotions):
     return [0, 0, 0, 0, 1]
     
 
+def makeDataVector(textEmotions, picEmotions, delta=0.3):
+    """
+    Merges emotion vector from picture into vector from text
+    By default, we only take top value from picture and increase
+    corresponding text value. We assume text gives better
+    emotion information than pictures
+    
+    Arguments:
+    @textEmotions:  [joy fear disgust sadness angry]
+    @picEmotions:   [anger contempt disgust fear happiness sadness surprise]
+    
+    Returns:
+    algorithmInputVector:  [joy fear disgust sadness angry] with changed values
+    """
+    
+    # By mapping find which index in textEmotions to increase
+    maxPE = picEmotions.index(max(picEmotions))
+    if maxPE == 0 or maxPE == 1: 
+        # anger || contempt -> angry`
+        incInd = 4
+    if maxPE == 2: 
+        # disgust -> disgust
+        incInd = 2
+    if maxPE == 3: 
+        # fear -> fear
+        incInd = 1
+    if maxPE == 4: 
+        # happiness -> joy
+        incInd = 0
+    if maxPE == 5: 
+        # sadness -> sadness
+        incInd = 3
+    if maxPE == 6: 
+        # surprise -> joy
+        incInd = 0
+   
+    textEmotions[incInd] += delta
+    return textEmotions
+    
+    
 def makeClassifier(X, targets, n_neighbors = 1, weights = 'distance'):
     """
     Arguments: 
@@ -60,6 +98,8 @@ def predictReactions(clf, testset):
     """
     return clf.predict(testset)
     
+    
+ 
 if __name__ == "__main__":
     
     # read data 
