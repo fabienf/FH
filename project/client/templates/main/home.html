@@ -1,0 +1,51 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<div class="body-content">
+  <div class="row">
+    <h1>Yolo</h1>
+  </div>
+  <br></br>
+
+  <h2 id="products-top">Picture maybe here</h2>
+
+  <!--Start of images-->
+
+
+ <div class="img" id ="img"><!--
+    <a target="_blank" href="sony.jpg">
+      <img src= {{ url_for('static', filename = 'apple.png') }} width="16" height="16" alt="previous" title="Previous" border="0">
+    </a>
+    <div class="desc">Sony PX440 Digital Voice Recorder - Black</div>
+    <form action="action_page.php" id="urlsub">
+      Image url: <input type="text" name="user">
+      <input type="submit">
+    </form>-->
+
+      <form>
+        <input type="text" value="" id="imagename"/>
+        <input type="button" id="btn" value="GO" />
+    </form>
+  </div>
+
+    <script type="text/javascript">
+        console.log(document.getElementById('imagename').value);
+        document.getElementById('btn').onclick = function() {
+            var val = document.getElementById('imagename').value,
+                src =  val ,
+                img = document.createElement('img');
+
+            img.src = src;
+            document.getElementById('img').appendChild(img);
+            // document.body.appendChild(img);
+        }
+    </script>
+
+
+
+<!---end of images-->
+</div>
+
+
+{% endblock %}
