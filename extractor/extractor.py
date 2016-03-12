@@ -76,13 +76,12 @@ class Extractor:
         return self.convert_to_alchemy_template(alchemy_result)
 
     def convert_to_alchemy_template(self, combined):
-        return {
-            'keywords': combined['keywords'],
-            'sentiment': combined['docSentiment'],
-            'taxonomy': combined['taxonomy'],
-            'concepts': combined['concepts'],
-            'emotions': combined['docEmotions']
-        }
+        obj = {}
+        for n in ['keywords', 'docSentiment', 'taxonomy', 'concepts', 'docEmotions']:
+            if n in combined:
+                obj[n] = combined[n]
+
+        return obj
 
     def emotions_to_x_array(self, articles=None):
         """
@@ -90,7 +89,7 @@ class Extractor:
         N = number of articles, M = 5 ordered emotions ['anger','disgust','fear','joy','sadness']
         """
         # dictionary of aticles extracted from the IBM json
-        if articles==None:
+        if articles is None:
             articles = self.extract()
 
         articles = articles['articles']
@@ -107,7 +106,7 @@ if __name__ == "__main__":
     logging.basicConfig(format="\033[95m\r%(asctime)s - %(levelname)s - %(message)s\033[0m", level=logging.INFO)
     logging.root.setLevel(logging.DEBUG)
 
-    json_file = '../data_gathering/bbc_data_10 articles.json'
+    json_file = '../data_gathering/bbc_data_10_articles.json'
     e = Extractor(json_file)
     b = e.extract()
     c = b['articles'][0]
