@@ -1,5 +1,16 @@
 /* custom css */
 
+
+#tooltip{
+	position:absolute;
+	border:1px solid #333;
+	background:#f7f5d1;
+	padding:2px 5px;
+	color:#333;
+	display:none;
+	}
+
+
 .site-content {
   padding-top: 75px;
 }
@@ -69,6 +80,16 @@ div.recomended products images{
 }
 
 
+div.img label{
+  display: None
+}
+
+/*div.img:hover label{
+    display:block;
+}*/
+
+
+
 #btn{
   background-color:#808080 !important;
 }
@@ -81,8 +102,8 @@ div.img {
     margin: 10px;
     /*border: 1px solid #ccc;*/
     float: left;
-    width: 560px;
-    height: 420px;
+    /*width: 560px;
+    height: 420px;*/
 }
 
 div.img:hover {

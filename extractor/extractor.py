@@ -84,13 +84,15 @@ class Extractor:
             'emotions': combined['docEmotions']
         }
 
-    def emotions_to_x_array(self):
+    def emotions_to_x_array(self, articles=None):
         """
         returns X array NxM with emotion values,
         N = number of articles, M = 5 ordered emotions ['anger','disgust','fear','joy','sadness']
         """
         # dictionary of aticles extracted from the IBM json
-        articles = self.extract()
+        if articles==None:
+            articles = self.extract()
+
         articles = articles['articles']
 
         x = np.zeros([len(articles), 5])
@@ -111,4 +113,4 @@ if __name__ == "__main__":
     c = b['articles'][0]
     embed()
 
-    X = e.emotions_to_x_array()
+    X = e.emotions_to_x_array(b)

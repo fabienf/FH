@@ -79,7 +79,7 @@ def get_analysis():
     x = None
     print vap.dat
     # print request.form
-    if 'img' not in vap.dat:
+    if (vap.dat is  None or 'img' not in vap.dat):
         x = []
     else:
         x = vap.dat['img']
