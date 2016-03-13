@@ -65,10 +65,10 @@ if __name__ == "__main__":
     # e = Extractor(json_file)
     # b = e.extract()
     # embed()
-    # with open('extracted10.pkl','wb') as f:
+    # with open('temp_results/extracted10.pkl','wb') as f:
     #     cPickle.dump( b, f)
 
-    with open('extracted10.pkl','r') as f:
+    with open('temp_results/extracted10.pkl','r') as f:
         extracted_articles = cPickle.load(f)
 
     textEmotions = text_emotions_x(extracted_articles)
@@ -80,7 +80,7 @@ if __name__ == "__main__":
     data['picEmotions'] = picEmotions
     data['targets'] = targets
 
-    with open('in10.pkl','wb') as f:
+    with open('temp_results/in10.pkl','wb') as f:
         cPickle.dump(data, f)
 
     embed()
