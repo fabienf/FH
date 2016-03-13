@@ -68,5 +68,6 @@ class Alchemy:
             return response
         else:
             logging.error('Error in concept tagging call: ', response['statusInfo'])
+            sys.exit(0)
 
         return None
