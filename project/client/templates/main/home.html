@@ -1,29 +1,42 @@
 {% extends "_base.html" %}
 
+
 {% block content %}
 
-<div class="body-content">
-  <div class="row">
+<!-- <div class="body-content"> -->
+  <!-- <div class="row">
     <h1>Reaction Predictor</h1>
-  </div>
-  <br></br>
+  </div> -->
+  <!-- <br></br> -->
 
   <!-- <h2 id="products-top" class="tooltip">Picture maybe here</h2> -->
 
   <!--Start of images-->
 
-<!-- <p><a class="tooltip" >Roll over for tooltip</a></p> -->
- <div class="img" id ="img" onmousemove="getPos(event)">
 
-      <form action="" method="post">
-        <input type="text" value="" id="imagename"/>
-        <input type="button" id="btn" value="analyyse" formmethod="POST" />
-    </form>
-    <label>test</label>
-  </div>
+
+
+<!-- <p><a class="tooltip" >Roll over for tooltip</a></p> -->
+
 
     <script type="text/javascript">
-        console.log(document.getElementById('imagename').value);
+
+    window.fbAsyncInit = function() {
+   FB.init({
+     appId      : '838247602881284',
+     xfbml      : true,
+     version    : 'v2.5'
+   });
+ };
+ (function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+        console.log(document.getElementById('ttx').value);
         d = 0
         function arg(arr){
           max = -Infinity,
@@ -62,11 +75,14 @@
 
           success: function(data) {
             // console.log(JSON.parse(data["img"]) );
-            console.log("###########")
-            console.log(data["img"])
-            console.log("##########")
+            // console.log("###########")
+            // console.log(data["img"])
+            // console.log("##########")
+            try{
             object = JSON.parse(data["img"]);
-
+          }catch(err){
+            object = data["img"]
+          }
             for(i=0; i<object.length; i++){
                 obj = object[i];
                 rect = obj.faceRectangle;
@@ -97,11 +113,11 @@
 
 
                       $("div.img.img").append("<p id='tooltip'>"+ argmax.replace("\"","").replace("'", "")+"</p>");
-                      if (rm){
-                        $("#tooltip").remove();
-                      }
+                      // if (rm){
+                      //   $("#tooltip").remove();
+                      // }
                     	$("#tooltip")
-                    		.css("top",((rect.top + $('div.img').offset().top) +28 + rect.height) + "px")
+                    		.css("top",((rect.top + $('div.img').offset().top) -40 + rect.height) + "px")
                     		.css("left",(rect.left + $('div.img').offset().left ) + "px")
                     		.fadeIn("fast");
                 }else{
@@ -118,7 +134,7 @@
                   // }
                 }rm=false;
             }
-            topa =  document.getElementById('imagename').value;
+            topa = document.getElementById('ttx').value;
             t = topa.split("/")
             t2 = t[t.length -1];
             // console.log("debug");
@@ -138,32 +154,37 @@
 
 
         if (t2 != false){
-          console.log("]]]]]]]]]]]]]]]")
-          console.log(t2)
-          console.log("]]]]]]]]]]]]]]]")
+          // console.log("]]]]]]]]]]]]]]]")
+          // console.log(t2)
+          // console.log("]]]]]]]]]]]]]]]")
         $.ajax({dataType: "json", url: "https://graph.facebook.com/228735667216_"+t2+"/?fields=picture,link", success: function(data){
-          console.log(data);
-              console.log(data["picture"]);
+          // console.log(data);
+          //     console.log(data["picture"]);
 
               picture = unescape(((data["picture"])))
               picture = picture.split('url=')[1].split('&')[0] //.replace('%3A',':').replace('%2F','/')
               // picture = picture.replace(/%2F/g, "/");
-              console.log(picture);
+              // console.log(picture);
 
               document.getElementById('btn').onclick = function() {
                 var val =picture,
                 src =  val ,
+                // $("#img").remove()
                 img = document.createElement('img');
-                console.log(">>>>>>>>>>>")
-                console.log(picture)
-                console.log(">>>>>>>>>>>")
+                // console.log(">>>>>>>>>>>")
+                // console.log(picture)
+                // console.log(">>>>>>>>>>>")
                 img.src = src;
 
                 try{
-                  document.getElementById('img').children[2].remove();
+                  console.log("########")
+                  console.log(document.getElementById('img').children);
+                  console.log("##############");
+                  // document.getElementById('img').children[2].remove();
                 }catch(err){
 
                 }
+                console.log(document.getElementById('img').children);
                 document.getElementById('img').appendChild(img);
                 x = true;
                 rm = true;
@@ -192,14 +213,14 @@
         setInterval(worker,1000);
 
         x = false;
-        console.log(t2)
+        // console.log(t2)
 
     </script>
 
 
 
 <!---end of images-->
-</div>
+<!-- </div> -->
 
 
 {% endblock %}

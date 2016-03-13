@@ -1,4 +1,27 @@
+/*
+ * Globals
+ */
+
+/* Links */
 /* custom css */
+.tooltip-inner {
+  white-space:nowrap;
+  max-width:none;
+}
+
+#tooltip{
+	position:absolute;
+	border:1px solid #333;
+	background:#f7f5d1;
+	padding:2px 5px;
+	color:#333;
+	display:none;
+	}
+
+#mycanvas{
+  width:600px;
+  height: 600px;
+}
 
 .site-content {
   padding-top: 75px;
@@ -11,196 +34,382 @@
  */
 
 /* Toggle Styles */
+* {
+  color: white;
+}
 #x{
   left : 100%;
 }
 h1{
+
+  color: white;
   right : 100%
+
+}
+.about-content{
+  position: absolute;
+padding: 20px;
+ width: 800px;
+  float: right;
+  colour:white;
+  text-align: left;
+
+}
+p1.about-content{
+  position: absolute;
+  float: left;
+
+}
+/*--stuffff----dropdownbutton-menu*/
+#products-top{
+  color: black  ;
+  font-size:
+}
+
+#img{
+   width=40px;
+   height=20px;
+}
+
+.img{
+   width=40px;
+   height=20px;
+}
+
+
+input, button, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: black;
+}
+
+div.recomended products images{
+  position: absolute;
+  width: 70%;
+
+
+}
+
+
+div.img label{
+  display: None
+}
+
+/*div.img:hover label{
+    display:block;
+}*/
+
+
+
+#btn{
+  background-color:#808080 !important;
+}
+
+
+.desc{
+  padding: 10px;
+}
+div.img {
+    margin: 10px;
+    /*border: 1px solid #ccc;*/
+    float: left;
+    /*width: 560px;
+    height: 420px;*/
+}
+
+div.img:hover {
+    border: 1px solid #777;
+}
+
+div.img img {
+    width: 100%;
+    height: auto;
+}
+
+div.desc {
+    padding: 15px;
+    text-align: center;
+}
+
+/* Style The Dropdown Button */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position:
+
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: 	#808080;
+}
+
+/*end-of-stuff*/
+
+
+.row row-offcanvas row-offcanvas-left{
+  position: fixed;
+  float: right;
 }
 .form{
   right: 100%
 }
+.dropdown{
+  position: absolute;
 
-#badcode{
-  display: none;
+
+
 }
 
-body {
-  padding-top: 51px;
+
+#picture{
+  background-image: url(http://www.campbellrigg.com/wp-content/themes/campbellrigg/images/nonfood/black/down-8.jpg);
+  background-size:contain;
+  background-repeat: no-repeat;
+  background-position: center;
+   position: absolute;
+    width: 600px;
+    height: 400px;
+    right: 0px;
+    bottom: 0px;
+    z-index: -2;
 }
-.text-center {
+
+enter {
   padding-top: 20px;
 }
-.col-xs-12 {
+
+
+
+a,
+a:focus,
+a:hover {
+  color: #fff;
+}
+
+/* Custom default button */
+.btn-default,
+.btn-default:hover,
+.btn-default:focus {
+  color: #333;
+  text-shadow: none; /* Prevent inheritence from `body` */
   background-color: #fff;
+  border: 1px solid #fff;
 }
-#sidebar {
+
+.form-control {
+      -webkit-border-radius: 5px !important;
+         -moz-border-radius: 5px !important;
+              border-radius: 5px !important;
+      -webkit-border-top: 5px !important;
+         -moz-border-top: 5px !important;
+              border-top: 5px !important;
+      -webkit-border-bottom: 5px !important;
+         -moz-border-bottom: 5px !important;
+              border-bottom: 5px !important;
+    }
+::-webkit-input-placeholder {
+ color: #d0cdfa;
+ text-align: center;
+}
+
+    /*
+ * Base structure
+ */
+
+html,
+body {
   height: 100%;
+  background-color: #236863;
+}
+body {
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+}
+
+#fbparent{
+    text-align:center;
+
+}
+
+
+/* Extra markup and styles for table-esque vertical and horizontal centering */
+.site-wrapper {
+  display: table;
+  width: 100%;
+  height: 100%; /* For at least Firefox */
+  min-height: 100%;
+  -webkit-box-shadow: inset 0 0 100px rgba(0,0,0,.5);
+          box-shadow: inset 0 0 100px rgba(0,0,0,.5);
+}
+.site-wrapper-inner {
+  display: table-cell;
+  vertical-align: top;
+}
+.cover-container {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* Padding for spacing */
+.inner {
+  padding: 30px;
+}
+
+.cvheadline {
+   font-family: 'Raleway', sans-serif;
+   font-size: 500%;
+   padding-bottom: 20px;
+}
+
+.aheadline {
+   font-family: 'Raleway', sans-serif;
+   font-size: 200%;
+   text-align: left;
+   padding-left: 15px;
+   padding-bottom: 10px;
+}
+
+
+/*
+ * Header
+ */
+.masthead-brand {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.masthead-nav > li {
+  display: inline-block;
+}
+.masthead-nav > li + li {
+  margin-left: 20px;
+}
+.masthead-nav > li > a {
   padding-right: 0;
-  padding-top: 20px;
+  padding-left: 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff; /* IE8 proofing */
+  color: rgba(255,255,255,.75);
+  border-bottom: 2px solid transparent;
 }
-#sidebar .nav {
-  width: 95%;
+.masthead-nav > li > a:hover,
+.masthead-nav > li > a:focus {
+  background-color: transparent;
+  border-bottom-color: #a9a9a9;
+  border-bottom-color: rgba(255,255,255,.25);
 }
-#sidebar li {
-  border:0 #f2f2f2 solid;
-  border-bottom-width:1px;
+.masthead-nav > .active > a,
+.masthead-nav > .active > a:hover,
+.masthead-nav > .active > a:focus {
+  color: #fff;
+  border-bottom-color: #fff;
 }
 
-/* collapsed sidebar styles */
-@media screen and (max-width: 767px) {
-  .row-offcanvas {
-    position: relative;
-    -webkit-transition: all 0.25s ease-out;
-    -moz-transition: all 0.25s ease-out;
-    transition: all 0.25s ease-out;
+@media (min-width: 768px) {
+  .masthead-brand {
+    float: left;
   }
-  .row-offcanvas-right
-  .sidebar-offcanvas {
-    right: -41.6%;
-  }
-
-  .row-offcanvas-left
-  .sidebar-offcanvas {
-    left: -41.6%;
-  }
-  .row-offcanvas-right.active {
-    right: 41.6%;
-  }
-  .row-offcanvas-left.active {
-    left: 41.6%;
-  }
-  .sidebar-offcanvas {
-    position: absolute;
-    top: 0;
-    width: 41.6%;
-  }
-  #sidebar {
-    padding-top:0;
+  .masthead-nav {
+    float: right;
   }
 }
 
 
-#wrapper {
-    padding-left: 0%;
-    margin-left: 0%;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
+/*
+ * Cover
+ */
+
+.cover {
+  padding: 0 20px;
+}
+.cover .btn-lg {
+  padding: 10px 20px;
+  font-weight: bold;
 }
 
-#wrapper.toggled {
-    padding-left: 0%;
-    margin-left: 0%;
+
+/*
+ * Footer
+ */
+
+.mastfoot {
+  color: #999; /* IE8 proofing */
+  color: rgba(255,255,255,.5);
 }
 
-#sidebar-wrapper {
-    /*z-index: 1000;*/
-    padding-left: 0%;
+
+/*
+ * Affix and center
+ */
+
+@media (min-width: 768px) {
+  /* Pull out the header and footer */
+  .masthead {
     position: fixed;
-    width: 0;
-    top: 10%;
-    right: -1%;
-    /*left: 95%;*/
-    margin-left: 0%;
-    height: 100%;
-    overflow-y: auto;
-    background: #fff;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-}
-
-#wrapper.toggled #sidebar-wrapper {
-    width: 250px;
-}
-
-#page-content-wrapper {
-    width: 100%;
-    position: absolute;
-    padding: 15px;
-}
-
-#wrapper.toggled #page-content-wrapper {
-    position: absolute;
-    margin-right: 0px;
-}
-
-/* Sidebar Styles */
-
-.sidebar-nav {
-    position: absolute;
     top: 0;
-    width: 250px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  }
+  .mastfoot {
+    position: fixed;
+    bottom: 0;
+  }
+  /* Start the vertical centering */
+  .site-wrapper-inner {
+    vertical-align: middle;
+  }
+  /* Handle the widths */
+  .masthead,
+  .mastfoot,
+  .cover-container {
+    width: 100%; /* Must be percentage or pixels for horizontal alignment */
+  }
 }
 
-.sidebar-nav li {
-    text-indent: 20px;
-    line-height: 40px;
+@media (min-width: 992px) {
+  .masthead,
+  .mastfoot,
+  .cover-container {
+    width: 700px;
+  }
 }
 
-.sidebar-nav li a {
-    display: block;
-    text-decoration: none;
-    color: #999999;
-
-}
-
-.sidebar-nav li a:hover {
-    text-decoration: none;
-    color: #fff;
-    background: rgba(255,255,255,0.2);
-}
-
-.sidebar-nav li a:active,
-.sidebar-nav li a:focus {
-    text-decoration: none;
-}
-
-.sidebar-nav > .sidebar-brand {
-    height: 65px;
-    font-size: 18px;
-    line-height: 60px;
-}
-
-.sidebar-nav > .sidebar-brand a {
-    color: #999999;
-}
-
-.sidebar-nav > .sidebar-brand a:hover {
-    color: #fff;
-    background: none;
-}
-
-@media(min-width:768px) {
-    #wrapper {
-        padding-left: 250px;
-    }
-
-    #wrapper.toggled {
-        padding-left: 0;
-    }
-
-    #sidebar-wrapper {
-        width: 250px;
-    }
-
-    #wrapper.toggled #sidebar-wrapper {
-        width: 0;
-    }
-
-    #page-content-wrapper {
-        padding: 20px;
-        position: relative;
-    }
-
-    #wrapper.toggled #page-content-wrapper {
-        position: relative;
-        margin-right: 0;
-    }
+.tooltip-inner {
+  white-space:nowrap;
+  max-width:none;
 }

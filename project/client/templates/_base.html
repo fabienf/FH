@@ -10,17 +10,82 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <!-- styles -->
     <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.1/yeti/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="{{url_for('static', filename='main.css')}}" rel="stylesheet" media="screen">
+    <link href="{{url_for('static', filename='main2.css')}}" rel="stylesheet" media="screen">
     <link rel="stylesheet" href="http://cdn.pydata.org/bokeh-0.7.1.min.css" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Raleway:200' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://cdn.pydata.org/bokeh-0.7.1.min.js"></script>
     {% block css %}{% endblock %}
-
+<script type="text/javascript">
+$(function () {
+      $("[rel='tooltip']").tooltip();
+  });
+</script>
 
 
 
   <body>
+    <div class="site-wrapper">      <div class="site-wrapper-inner">        <div class="cover-container">
+      <div class="inner cover">
+        <h1 class="cvheadline">Analyse impact</h1>
 
-    {% include 'header.html' %}
+        <div class="input-group input-group-lg col-xs-12">
+          <input id = "ttx" type="text" class="form-control" placeholder="Link to Facebook post" >
+          <span class="input-group-btn">
+            <button id="btn" class="btn btn-warning" type="button" formmethod="POST">Go!</button>
+          </span>
+
+        </div>
+
+      </div> </div>      </div>
+    </div>
+
+
+    <div class="site-wrapper" style="padding-top: 20px;">
+       <div class="col-sm-4 main">
+           <div class="site-wrapper-inner">
+
+        <div style="padding-top: 20px; padding-left: 15px;" >
+           <div class="fb-post" data-href="https://www.facebook.com/bbcnews/posts/10153446086387217" data-width="400"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/bbcnews/posts/10153446086387217">Posted by <a href="https://www.facebook.com/facebook/">Facebook</a> on&nbsp;<a href="https://www.facebook.com/bbcnews/posts/10153446086387217">Thursday, August 27, 2015</a></blockquote></div></div>
+
+        </div>
+
+
+
+                 </div>
+         </div>    <div class="col-sm-4 main">
+         <div class="site-wrapper-inner">
+             <h1 class="aheadline">Skimming through the article</h1>
+                </br>
+                </br>
+                </br>
+             <h1 class="aheadline">Understanding emotions</h1>
+                 </br>
+                 </br>
+                 </br>
+                     </div>
+
+     </div>
+
+     <div class="row "  data-toggle="tooltip">
+       <div class="site-wrapper-inner" onmousemove="getPos(event)" data-toggle="tooltip">
+       <div class="img" id ="img" onmousemove="getPos(event)">
+
+             <h1 class="aheadline">Looking at people</h1>
+
+                <label>test</label>
+              </div>
+            </br>
+            </br>
+            </br>
+             <h1 class="aheadline">Analysing impact</h1>
+                 </br>
+                 </br>
+                 </br>        </div>
+
+     </div>
+
+  </div>
+
 
     <div class="site-content">
       <div class="container">
@@ -49,7 +114,7 @@
         <br>
 
         <!-- errors -->
-        {% if error %}
+        {% if error %}https://www.facebook.com/bbcnews/posts/10153446410822217
           <p class="error"><strong>Error:</strong> {{ error }}</p>
         {% endif %}
 
