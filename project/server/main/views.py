@@ -8,6 +8,7 @@
 from flask import render_template, Blueprint, jsonify
 from flask import render_template, Blueprint, url_for, \
     redirect, flash, request,session
+from extractor import *
 
 
 ################
@@ -54,6 +55,8 @@ class VisionAPI:
 
 vap = VisionAPI()
 
+e = Extractor()
+
 
 @main_blueprint.route('/', methods=['GET', 'POST'])
 # @user_blueprint.route('/register')
@@ -62,9 +65,20 @@ def home():
     print request.form
     vapi = None
     if request.method == 'POST':
-
+         i = request.form["img"]
+         l = request.form["link"]
+         user_input = {
+             "article_link": l,
+             "image_link": i
+         }
+        #  bhgjjjjjjjjjjj
+        #  print i,l
+        #  bbbbbb
+         b = e.user_extract(user_input)
          vapi = vap.get_json(request.form["img"])
-         vap.dat = {"img":vapi}
+        #  bbbbbbbbbb
+
+         vap.dat = {"img":vapi,"wat" : e.user_extract(user_input) }
         #  print vapi
     return render_template('main/home.html', vap= vapi)
 
@@ -78,12 +92,14 @@ def get_analysis():
     print "TEST"
     x = None
     print vap.dat
+    y = None
     # print request.form
     if (vap.dat is  None or 'img' not in vap.dat):
         x = []
     else:
         x = vap.dat['img']
-    return jsonify(img=x, test='test')
+        y = vap.dat["wat"]
+    return jsonify(img=x, test='test', wat=y)
 
 
 

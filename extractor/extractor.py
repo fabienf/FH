@@ -10,8 +10,10 @@ from IPython import embed
 
 
 class Extractor:
-
+    # djjjjjjjjjjjjjjjjj
     def __init__(self, input_file=None, output_file=None):
+        # hhhhhhhhhhhhhhhh
+        # print "BBBBBBBb"
         self.alchemy_options = ['main', 'sentiment', 'emotion']  # ['emotion', 'sentiment', 'main']
 
         self.input_file = input_file
@@ -23,6 +25,7 @@ class Extractor:
         self.alchemy = Alchemy()
         self.oxford = Oxford()
         self.watson = Watson()
+        # print "BASE"
         logging.info("Ready to extract")
 
     def json_file_to_obj(self, json_file):

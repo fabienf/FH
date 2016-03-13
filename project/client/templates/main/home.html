@@ -172,33 +172,42 @@
                 // $("#img").remove()
                 img = document.createElement('img');
                 // console.log(">>>>>>>>>>>")
+                try{
+                  console.log("########")
+                  console.log(document.getElementById('#poop'));
+                  document.getElementById('#poop').remove();
+                  myNode = document.getElementById('img');
+                  while (myNode.firstChild) {
+                      myNode.removeChild(myNode.firstChild);
+                  }
+                  console.log("##############");
+                }catch(err){
+                    console.log(err);
+                }
                 // console.log(picture)
                 // console.log(">>>>>>>>>>>")
                 img.src = src;
 
-                try{
-                  console.log("########")
-                  console.log(document.getElementById('img').children);
-                  console.log("##############");
-                  // document.getElementById('img').children[2].remove();
-                }catch(err){
-
+                myNode = document.getElementById('img');
+                while (myNode.firstChild) {
+                    myNode.removeChild(myNode.firstChild);
                 }
-                console.log(document.getElementById('img').children);
+                img.id = "poop"
                 document.getElementById('img').appendChild(img);
                 x = true;
                 rm = true;
                 // document.body.appendChild(img);
+                console.log( data["link"]);
                 $.ajax({
                   type: 'POST',
                   url: '/',
-                  data: {'img' : src,}
+                  data: {'img' : src, "link": data["link"]}
                 });
 
                 $.ajax({
                   type: 'POST',
                   url: '/get_analysis',
-                  data: {'img' : src,}
+                  data: {'img' : src , "link": data["link"]}
                 });
               }
 
