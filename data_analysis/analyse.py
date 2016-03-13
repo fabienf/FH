@@ -40,6 +40,8 @@ class Analyse:
 
         categories = {}
         for n, m in taxonomies:
+            # embed()
+            # break
             primary = n.split('/')[1]
             if len(n.split('/')) > 2:
                 secondary = n.split('/')[2]
@@ -72,9 +74,17 @@ class Analyse:
         categories = self.get_category_info()
         return categories[primary]['secondaries'][secondary]
 
+    def show_categories(self, primary=None):
+        categories = self.get_category_info()
+        if primary and primary in categories:
+            return categories[primary]['secondaries'].keys()
+        else:
+            return categories.keys()
+
 if __name__ == "__main__":
     file_name = "../extractor/output/bbac_1150_all.json"
     a = Analyse(file_name)
-    b = a.find_specific_category('art and entertainment', 'movies')
+    # print a.show_categories('art and entertainment')
+    # b = a.find_specific_category('art and entertainment', 'movies')
 
     embed()
