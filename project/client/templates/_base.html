@@ -55,14 +55,32 @@ $(function () {
          </div>    <div class="col-sm-4 main">
          <div class="site-wrapper-inner">
              <h1 class="aheadline">Skimming through the article</h1>
+             <ul style="list-style-type: none; text-align: left">
+             <li><h1><span class="label label-success">law, govt and politics</span></h1></li>
+             <li><h1><span class="label label-success">society</span></h1></li>
+             <li><h1><span class="label label-success">news</span></h1></li>
+             </ul>
                 </br>
                 </br>
                 </br>
+
              <h1 class="aheadline">Understanding emotions</h1>
                  </br>
                  </br>
                  </br>
-                     </div>
+                 <ul id="xox" style="list-style-type: none; text-align: left">
+                 <li><h1><span class="label label-danger" id="anger" style="display:none;">anger</span></h1></li>
+                 <li><h1><span class="label label-danger" id="contempt" style="display:none;">contempt</span></h1></li>
+                 <li><h1><span class="label label-danger" id="disgust" style="display:none;">disgust</span></h1></li>
+                 <li><h1><span class="label label-danger" id="fear" style="display:none;">fear</span></h1></li>
+                 <li><h1><span class="label label-danger" id="happiness" style="display:none;">happiness</span></h1></li>
+                 <li><h1><span class="label label-danger" id="neutral" style="display:none;">neutral</span></h1></li>
+                 <li><h1><span class="label label-danger" id="sadness" style="display:none;">sadness</span></h1></li>
+
+                <li><h1><span class="label label-danger" id="surprise" style="display:none;">surprise</span></h1></li>
+
+                 </ul>
+                  </div>
 
      </div>
 
@@ -77,18 +95,16 @@ $(function () {
             </br>
             </br></div>
              <h1 class="aheadline">Analysing impact</h1>
-                 </br>
-                 </br>
-                 </br>
                  <div class="img" id ="eugh" onmousemove="getPos(event)">
-                   <img id="love" src={ url_for('static', filename = 'love.png') }} style="display:none;" ></img>
+                   <img id="love" src={{ url_for('static', filename = 'love.png') }}  style="display:none;" ></img>
 
 
                    <img id="haha" src={{ url_for('static', filename = 'haha.png') }} style="display:none;"></img>
 
-                     <img id="wow" src={{ url_for('static', filename = 'wow.png') }}style="display:none;" ></img>
-                      <img id="sad" src={{ url_for('static', filename = 'sad.png') }}style="display:none;" ></img>
-                       <img id="angry" src={{ url_for('static', filename = 'angry.png') }} style="display:none;"></img>
+
+                  <img id="angry" src={{ url_for('static', filename = 'angry.png') }} style="display:none;"></img>
+                  <img id="wow" src={{ url_for('static', filename = 'wow.png') }} style="display:none;"></img>
+                  <img id="sad" src={{ url_for('static', filename = 'sad.png') }} style="display:none;"></img>
                   </div>
 
      </div>

@@ -11,7 +11,7 @@ from flask import render_template, Blueprint, url_for, \
 from extractor import *
 from predict import *
 import numpy as np
-
+import json
 ################
 #### config ####
 ################
@@ -76,11 +76,17 @@ def home():
         #  print i,l
         #  bbbbbb
         #  b = e.user_extract(user_input)
-         b = predict(user_input["article_link"], user_input["image_link"])
+         b , t = predict(user_input["article_link"], user_input["image_link"])
          vapi = vap.get_json(request.form["img"])
         #  bbbbbbbbbb
+         print vapi
+        #  print vapi["scores"], "##########"
+         x = list()
+         for j in json.loads(vapi):
+              print j,"~~~~~~~~~~####"
+              x .append(j["scores"].keys()[np.argmax(j["scores"].values)]  )
 
-         vap.dat = {"img":vapi,"wat" : enum[np.argmax(b) ]}
+         vap.dat = {"img":vapi,"wat" : enum[np.argmax(b) ], "xd": x, "tax": t}
         #  print vapi
     return render_template('main/home.html', vap= vapi)
 
@@ -95,13 +101,17 @@ def get_analysis():
     x = None
     print vap.dat
     y = None
+    f = None
+    xd = None
     # print request.form
     if (vap.dat is  None or 'img' not in vap.dat):
         x = []
     else:
         x = vap.dat['img']
         y = vap.dat["wat"]
-    return jsonify(img=x, test='test', wat=y)
+        f = vap.dat["tax"]
+        xd = vap.dat["xd"]
+    return jsonify(img=x, test='test', wat=y, tax=f,feels=xd)
 
 
 

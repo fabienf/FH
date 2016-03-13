@@ -88,10 +88,12 @@
           if("wat" in data){
              k = data["wat"]
             //  g = $(k).show();
+            try{
              g = document.getElementById(k ) ;
              g.style.display = "";
              console.log(document.getElementById(k))
              console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+           }catch(err){}
             //  g.style = "display:none;"
           }
 
