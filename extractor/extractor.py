@@ -64,7 +64,7 @@ class Extractor:
             article['targets'] = {}
 
             # store targets
-            reactions = ['angry', 'haha', 'likes', 'love', 'sad']
+            reactions = ['angry', 'haha', 'likes', 'love', 'sad','wow']
             for r in reactions:
                 article['targets'][r] = payload[r]
 
