@@ -11,11 +11,15 @@ from IPython import embed
 
 class Extractor:
 
-    def __init__(self, json_file, output_file):
+    def __init__(self, input_file=None, output_file=None):
         self.alchemy_options = ['main', 'sentiment', 'emotion']  # ['emotion', 'sentiment', 'main']
-        self.data = self.json_file_to_obj(json_file)
-        self.input_file = json_file
+
+        self.input_file = input_file
         self.output_file = output_file
+
+        if input_file:
+            self.data = self.json_file_to_obj(input_file)
+
         self.alchemy = Alchemy()
         self.oxford = Oxford()
         self.watson = Watson()
@@ -147,9 +151,10 @@ if __name__ == "__main__":
 
     json_file = './input/prepdata.json'
     output_file = './output/bbac_1150_all.json'
-    e = Extractor(json_file, output_file)
+    # e = Extractor(json_file, output_file)
     # e.extract(write=True)
 
+    e = Extractor()
     user_input = {
         "article_link": "http://bbc.in/1pDu1Xy",
         "image_link": "https://s3.amazonaws.com/prod-cust-photo-posts-jfaikqealaka/3065-55184dfc661ac1721a0c715326298c54.jpg"
