@@ -45,6 +45,20 @@ def picture_emotions_x(articles):
 
     return x
 
+def target_vectors(articles):
+    articles = articles['articles']
+
+    targets = np.zeros([len(articles), 5])
+    for i in xrange(len(articles)):
+        targets_dic = articles[i]['targets']
+        targets_list = np.zeros(5)
+        for (j, t) in enumerate(['love', 'haha', 'wow', 'sad', 'angry']):
+            targets_list[j] = targets_dic[t]
+
+        max_target_ind = list(targets_list).index(max(targets_list))
+        targets[i, max_target_ind] = 1
+
+    return targets
 
 if __name__ == "__main__":
     # json_file = '../data_gathering/bbc_data_10_articles.json'
@@ -59,6 +73,15 @@ if __name__ == "__main__":
 
     textEmotions = text_emotions_x(extracted_articles)
     picEmotions = picture_emotions_x(extracted_articles)
+    targets = target_vectors(extracted_articles)
+
+    data = dict()
+    data['textEmotions'] = textEmotions
+    data['picEmotions'] = picEmotions
+    data['targets'] = targets
+
+    with open('in10.pkl','wb') as f:
+        cPickle.dump(data, f)
 
     embed()
 
