@@ -159,7 +159,7 @@ if __name__ == "__main__":
     x = makeDataMatrix(data['textEmotions'], data['picEmotions'], delta=0.01)
     targets = data['targets']
     clf = makeClassifier(x, targets, n_neighbors=1)
-    with open('trained_models/bbac_1150_all_clf.pkl','wb') as f:
+    with open('trained_models/bbac_1150_all_clf_chosen.pkl','wb') as f:
         cPickle.dump(clf, f)
 
     scores = cross_validation.cross_val_score(clf, x, targets, cv=len(x))

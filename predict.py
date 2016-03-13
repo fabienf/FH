@@ -36,4 +36,7 @@ def predict(article_link, image_link):
     return reaction[0]
 
 if __name__ == '__main__':
-    print predict("http://bbc.in/1pDu1Xy", "https://s3.amazonaws.com/prod-cust-photo-posts-jfaikqealaka/3065-55184dfc661ac1721a0c715326298c54.jpg")
+    # print predict("http://bbc.in/1pDu1Xy", "https://s3.amazonaws.com/prod-cust-photo-posts-jfaikqealaka/3065-55184dfc661ac1721a0c715326298c54.jpg")
+    print predict("http://bbc.in/1SFfhmy", "https://s3.amazonaws.com/prod-cust-photo-posts-jfaikqealaka/3065-001693b125e76a7b9e7b463561c7c9f1.jpg")
+
+
