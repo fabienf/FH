@@ -1,6 +1,10 @@
 import numpy as np
-from sklearn import neighbors, datasets, preprocessing
+from sklearn import neighbors, datasets, preprocessing, cross_validation
+from sklearn.metrics import accuracy_score
 from pprint import pprint
+import cPickle
+
+from IPython import embed
 
 def decodeEmotions(emotions):
     """
@@ -43,9 +47,8 @@ def makeDataVector(textEmotions, picEmotions, delta=0.3):
     Returns:
     algorithmInputVector:  [joy fear disgust sadness angry] with changed values
     """
-    
     # By mapping find which index in textEmotions to increase
-    maxPE = picEmotions.index(max(picEmotions))
+    maxPE = list(picEmotions).index(max(picEmotions))
     if maxPE == 0 or maxPE == 1: 
         # anger || contempt -> angry`
         incInd = 4
@@ -67,8 +70,17 @@ def makeDataVector(textEmotions, picEmotions, delta=0.3):
    
     textEmotions[incInd] += delta
     return textEmotions
-    
-    
+
+def makeDataMatrix(textEmotions, picEmotions, delta=0.3):
+    assert len(textEmotions)==len(picEmotions), "hup, lengths of text and picture emotions do not match."
+
+    n_artices = len(textEmotions)
+    x = np.zeros([n_artices,5])
+    for i in xrange(n_artices):
+        x[i,:] = makeDataVector(textEmotions[i,:], picEmotions[i,:], delta)
+
+    return x
+
 def makeClassifier(X, targets, n_neighbors = 1, weights = 'distance'):
     """
     Arguments: 
@@ -102,26 +114,38 @@ def predictReactions(clf, testset):
  
 if __name__ == "__main__":
     
-    # read data 
-    e1 = np.array([0.8, 0.05,0.05, 0.01, 0.09, 0.8, 0.05, 0.05, 0.01, 0.09]) 
+    # # read data 
+    # e1 = np.array([0.8, 0.05,0.05, 0.01, 0.09, 0.8, 0.05, 0.05, 0.01, 0.09]) 
     
-    X_n = [e1, 2*e1, 4*e1, 9*e1]
+    # X_n = [e1, 2*e1, 4*e1, 9*e1]
     
-    X = preprocessing.scale(X_n)
+    # X = preprocessing.scale(X_n)
     
-    targets = [[0, 0, 0, 0, 1],
-              [0, 0, 0, 1, 0],
-              [0, 1, 0, 0, 0],
-              [0, 1, 0, 0, 0]]
+    # targets = [[0, 0, 0, 0, 1],
+    #           [0, 0, 0, 1, 0],
+    #           [0, 1, 0, 0, 0],
+    #           [0, 1, 0, 0, 0]]
     
-    testset_n = [7*e1, 22*e1]
-    testset = preprocessing.scale(testset_n)
-    pprint (X_n)
-    pprint (X)  
-    clf = makeClassifier(X, targets)
+    # testset_n = [7*e1, 22*e1]
+    # testset = preprocessing.scale(testset_n)
+    # pprint (X_n)
+    # pprint (X)  
+    # clf = makeClassifier(X, targets)
     
-    reactions = predictReactions(clf, testset)
-    print reactions
+    # reactions = predictReactions(clf, testset)
+    # print reactions
+
+    with open('../extractor/temp_results/in10.pkl','r') as f:
+        data = cPickle.load(f)
+
+    x = makeDataMatrix(data['textEmotions'], data['picEmotions'])
+    targets = data['targets']
+    clf = makeClassifier(x, targets)
+    scores = cross_validation.cross_val_score(clf, x, targets, cv=5)
+    print scores
+    print '\naverage accuracy: ', np.mean(scores)
+
+    embed()
     
     
     
