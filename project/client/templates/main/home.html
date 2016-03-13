@@ -83,6 +83,18 @@
           }catch(err){
             object = data["img"]
           }
+
+
+          if("wat" in data){
+             k = data["wat"]
+            //  g = $(k).show();
+             g = document.getElementById(k ) ;
+             g.style.display = "";
+             console.log(document.getElementById(k))
+             console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+            //  g.style = "display:none;"
+          }
+
             for(i=0; i<object.length; i++){
                 obj = object[i];
                 rect = obj.faceRectangle;
@@ -147,6 +159,8 @@
           },
           complete: function() {
 
+        // Schedule the next request when the current one's complete
+            // setTimeout(worker, 100);
         // Schedule the next request when the current one's complete
             // setTimeout(worker, 100);
              }

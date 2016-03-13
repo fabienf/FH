@@ -9,7 +9,8 @@ from flask import render_template, Blueprint, jsonify
 from flask import render_template, Blueprint, url_for, \
     redirect, flash, request,session
 from extractor import *
-
+from predict import *
+import numpy as np
 
 ################
 #### config ####
@@ -54,7 +55,7 @@ class VisionAPI:
 
 
 vap = VisionAPI()
-
+enum = ["love", "haha", "yay", "wow", "sad", "angry"]
 e = Extractor()
 
 
@@ -74,11 +75,12 @@ def home():
         #  bhgjjjjjjjjjjj
         #  print i,l
         #  bbbbbb
-         b = e.user_extract(user_input)
+        #  b = e.user_extract(user_input)
+         b = predict(user_input["article_link"], user_input["image_link"])
          vapi = vap.get_json(request.form["img"])
         #  bbbbbbbbbb
 
-         vap.dat = {"img":vapi,"wat" : e.user_extract(user_input) }
+         vap.dat = {"img":vapi,"wat" : enum[np.argmax(b) ]}
         #  print vapi
     return render_template('main/home.html', vap= vapi)
 
