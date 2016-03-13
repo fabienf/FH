@@ -1,5 +1,6 @@
 
 import logging
+import sys
 
 from alchemyapi_python.alchemyapi import AlchemyAPI
 from IPython import embed
@@ -30,6 +31,7 @@ class Alchemy:
             return response
         else:
             logging.error('Error in concept tagging call: ' + str(response['statusInfo']))
+            sys.exit(0)
 
         return None
 
@@ -66,5 +68,6 @@ class Alchemy:
             return response
         else:
             logging.error('Error in concept tagging call: ', response['statusInfo'])
+            sys.exit(0)
 
         return None

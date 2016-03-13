@@ -1,3 +1,5 @@
 .DC_Store
 
 *.pyc
+extractor/input/*
+extractor/output/*

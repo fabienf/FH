@@ -5,16 +5,20 @@ import logging
 
 from alchemy import Alchemy
 from oxford import Oxford
+from watson import Watson
 from IPython import embed
 
 
 class Extractor:
 
-    def __init__(self, json_file):
+    def __init__(self, json_file, output_file):
         self.alchemy_options = ['main', 'sentiment', 'emotion']  # ['emotion', 'sentiment', 'main']
         self.data = self.json_file_to_obj(json_file)
+        self.input_file = json_file
+        self.output_file = output_file
         self.alchemy = Alchemy()
         self.oxford = Oxford()
+        self.watson = Watson()
         logging.info("Ready to extract")
 
     def json_file_to_obj(self, json_file):
@@ -33,10 +37,26 @@ class Extractor:
 
     def json_file_to_string(self, file_name):
         with open(file_name) as json_file:
-            data = "".join([line.strip() for line in json_file])
+            data = "[" + ",".join([line.strip() for line in json_file]) + "]"
             return data
 
-    def extract(self):
+    def remove_from_input(self):
+        '''
+        Remove the first line of the input file.
+        This is horrible implementation. But hey, it's a hackathon.
+        '''
+        with open(self.input_file, 'r') as fin:
+            data = fin.read().splitlines(True)
+        with open(self.input_file, 'w') as fout:
+            fout.writelines(data[1:])
+
+    def write_to_json(self, article):
+        json_article = json.dumps(article, sort_keys=True)
+        f = open(self.output_file, "a")
+        f.write(json_article + '\n')
+        f.close()
+
+    def extract(self, write=False):
         if self.data is None:
             raise Exception('No data to extract')
 
@@ -58,22 +78,27 @@ class Extractor:
             article['image_link'] = payload['image_link']
             article['alchemy'] = self.extract_alchemy_data(text)
             article['oxford'] = self.extract_oxford_vision_data(payload['image_link'])
+            article['watson'] = self.extract_watson_tone_data(text)
             article['targets'] = {}
 
             # store targets
-            reactions = ['angry', 'haha', 'likes', 'love', 'sad','wow']
+            reactions = ['angry', 'haha', 'likes', 'love', 'sad', 'wow']
             for r in reactions:
                 article['targets'][r] = payload[r]
 
             result_obj['articles'].append(article)
 
-            # break
+            if write:
+                logging.info('Saving process...')
+                self.remove_from_input()
+                self.write_to_json(article)
+                logging.info('Done')
 
         return result_obj
 
     def extract_alchemy_text(self, url):
-        resutl = self.alchemy.run(url, target='text')
-        return resutl['text'], resutl['url']
+        result = self.alchemy.run(url, target='text')
+        return result['text'], result['url']
 
     def extract_alchemy_data(self, text):
         alchemy_result = self.alchemy.run(text, target='combined', options=self.alchemy_options)
@@ -91,12 +116,14 @@ class Extractor:
     def extract_oxford_vision_data(self, url):
         return self.oxford.run(url, target='emotion')
 
+    def extract_watson_tone_data(self, text):
+        return self.watson.run(text, target='tone_analyzer')
+
 if __name__ == "__main__":
     logging.basicConfig(format="\033[95m\r%(asctime)s - %(levelname)s - %(message)s\033[0m", level=logging.INFO)
     logging.root.setLevel(logging.DEBUG)
 
-    json_file = '../data_gathering/bbc_data_10_articles.json'
-    e = Extractor(json_file)
-    b = e.extract()
-    c = b['articles'][0]
-    embed()
+    json_file = './input/prepdata.json'
+    output_file = './output/bbac_1150_all.json'
+    e = Extractor(json_file, output_file)
+    e.extract(write=True)
