@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn import neighbors, datasets, preprocessing, cross_validation
 from sklearn.metrics import accuracy_score
+from sklearn.ensemble import RandomForestClassifier
 from pprint import pprint
 import cPickle
 
@@ -135,17 +136,18 @@ if __name__ == "__main__":
     # reactions = predictReactions(clf, testset)
     # print reactions
 
-    with open('../extractor/temp_results/in10.pkl','r') as f:
+    with open('../extractor/temp_results/bbac_1150_all.pkl','r') as f:
         data = cPickle.load(f)
 
-    x = makeDataMatrix(data['textEmotions'], data['picEmotions'])
+    x = makeDataMatrix(data['textEmotions'], data['picEmotions'], delta=0.01)
     targets = data['targets']
-    clf = makeClassifier(x, targets)
-    scores = cross_validation.cross_val_score(clf, x, targets, cv=5)
+    clf = makeClassifier(x, targets, n_neighbors=1)
+    scores = cross_validation.cross_val_score(clf, x, targets, cv=len(x))
     print scores
     print '\naverage accuracy: ', np.mean(scores)
 
-    embed()
+    
+    # embed()
     
     
     

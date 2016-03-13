@@ -1,6 +1,7 @@
 import numpy as np
-from extractor import Extractor
+# from extractor import Extractor
 import cPickle
+import json
 from IPython import embed
 
 
@@ -27,6 +28,7 @@ def picture_emotions_x(articles):
     """
     articles = articles['articles']
 
+    debug_faces = []
     x = np.zeros([len(articles), 7])
     for i in xrange(len(articles)):
         face_emotion_list = articles[i]['oxford']
@@ -38,11 +40,20 @@ def picture_emotions_x(articles):
             # array of emotions for each face in the picture which will be averged
             f_emoion_array = np.zeros([n_faces,7])
             for (j, face) in enumerate(face_emotion_list):
-                for (k, e) in enumerate(['anger', 'contempt', 'disgust', 'fear', 'happiness', 'sadness', 'surprise']):
-                    f_emoion_array[j, k] = face['scores'][e]
+                if face=="error" or face=="activityId" or face=="message" or face=="statusCode":
+                    x[i,:] = 0
+                    debug_faces.append(face)
+                else:
+                    for (k, e) in enumerate(['anger', 'contempt', 'disgust', 'fear', 'happiness', 'sadness', 'surprise']):
+                        try:
+                            f_emoion_array[j, k] = face['scores'][e]
+                        except Exception, e:
+                            embed()
+                        # f_emoion_array[j, k] = face['scores'][e]
 
             x[i,:] = np.mean(f_emoion_array, axis=0)
 
+    print 'debug_faces', len(debug_faces), debug_faces
     return x
 
 def target_vectors(articles):
@@ -68,8 +79,23 @@ if __name__ == "__main__":
     # with open('temp_results/extracted10.pkl','wb') as f:
     #     cPickle.dump( b, f)
 
-    with open('temp_results/extracted10.pkl','r') as f:
-        extracted_articles = cPickle.load(f)
+    # with open('temp_results/extracted10.pkl','r') as f:
+    #     extracted_articles = cPickle.load(f)
+
+    articles = []
+    with open('output/bbac_1150_all.json') as f:
+        for article in f:
+            obj = json.loads(article.strip())
+            articles.append(obj)
+
+    extracted_articles = dict()
+    extracted_articles['articles'] = articles
+    # e = Extractor(json_file)
+    # extracted_articles = e.extract()
+    # with open('temp_results/bbac_1150_all_extracted.pkl','wb') as f:
+    #     cPickle.dump( extracted_articles, f)
+
+    # embed()
 
     textEmotions = text_emotions_x(extracted_articles)
     picEmotions = picture_emotions_x(extracted_articles)
@@ -80,7 +106,7 @@ if __name__ == "__main__":
     data['picEmotions'] = picEmotions
     data['targets'] = targets
 
-    with open('temp_results/in10.pkl','wb') as f:
+    with open('temp_results/bbac_1150_all.pkl','wb') as f:
         cPickle.dump(data, f)
 
     embed()
