@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn import neighbors, datasets, preprocessing, cross_validation
 from sklearn.metrics import accuracy_score
+from sklearn.ensemble import RandomForestClassifier
 from pprint import pprint
 import cPickle
 
@@ -71,7 +72,7 @@ def makeDataVector(textEmotions, picEmotions, delta=0.3):
     textEmotions[incInd] += delta
     return textEmotions
 
-def makeDataMatrix(textEmotions, picEmotions, delta=0.3):
+def makeDataMatrix(textEmotions, picEmotions, delta=0.01):
     assert len(textEmotions)==len(picEmotions), "hup, lengths of text and picture emotions do not match."
 
     n_artices = len(textEmotions)
@@ -135,17 +136,37 @@ if __name__ == "__main__":
     # reactions = predictReactions(clf, testset)
     # print reactions
 
-    with open('../extractor/temp_results/in10.pkl','r') as f:
+    # main prediction with all articles
+    with open('../extractor/temp_results/bbac_1150_all.pkl','r') as f:
         data = cPickle.load(f)
 
-    x = makeDataMatrix(data['textEmotions'], data['picEmotions'])
+    x = makeDataMatrix(data['textEmotions'], data['picEmotions'], delta=0.01)
     targets = data['targets']
-    clf = makeClassifier(x, targets)
-    scores = cross_validation.cross_val_score(clf, x, targets, cv=5)
+    clf = makeClassifier(x, targets, n_neighbors=1)
+    with open('trained_models/bbac_1150_all_clf.pkl','wb') as f:
+        cPickle.dump(clf, f)
+
+    scores = cross_validation.cross_val_score(clf, x, targets, cv=len(x))
     print scores
     print '\naverage accuracy: ', np.mean(scores)
 
-    embed()
+
+
+    # topic specific prediction 
+    with open('../extractor/temp_results/bbac_1150_all_chosen.pkl','r') as f:
+        data = cPickle.load(f)
+
+    x = makeDataMatrix(data['textEmotions'], data['picEmotions'], delta=0.01)
+    targets = data['targets']
+    clf = makeClassifier(x, targets, n_neighbors=1)
+    with open('trained_models/bbac_1150_all_clf_chosen.pkl','wb') as f:
+        cPickle.dump(clf, f)
+
+    scores = cross_validation.cross_val_score(clf, x, targets, cv=len(x))
+    print scores
+    print '\naverage accuracy: ', np.mean(scores)
+    
+    # embed()
     
     
     

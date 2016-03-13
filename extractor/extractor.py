@@ -11,11 +11,15 @@ from IPython import embed
 
 class Extractor:
 
-    def __init__(self, json_file, output_file):
+    def __init__(self, input_file=None, output_file=None):
         self.alchemy_options = ['main', 'sentiment', 'emotion']  # ['emotion', 'sentiment', 'main']
-        self.data = self.json_file_to_obj(json_file)
-        self.input_file = json_file
+
+        self.input_file = input_file
         self.output_file = output_file
+
+        if input_file:
+            self.data = self.json_file_to_obj(input_file)
+
         self.alchemy = Alchemy()
         self.oxford = Oxford()
         self.watson = Watson()
@@ -56,16 +60,38 @@ class Extractor:
         f.write(json_article + '\n')
         f.close()
 
-    def extract(self, write=False):
-        if self.data is None:
+    def user_extract(self, payload):
+        if not payload['article_link'] or not payload['image_link']:
+            raise Exception('Missing data')
+
+        new_payload = [{
+            "image_link": payload['image_link'],
+            "article_link": payload['article_link'],
+            "link_name": None,
+            "love": -1,
+            "likes": -1,
+            "wow": -1,
+            "angry": -1,
+            "haha": -1,
+            "sad": -1
+        }]
+
+        extracted = self.extract(data=new_payload)
+        return extracted['articles'][0]
+
+    def extract(self, data=None, write=False):
+        if data is None:
+            data = self.data
+
+        if data is None:
             raise Exception('No data to extract')
 
         result_obj = {
             "articles": [],
         }
 
-        for idx, payload in enumerate(self.data):
-            logging.info("(" + str(idx + 1) + "/" + str(len(self.data)) + ") Extracting: " + payload['article_link'])
+        for idx, payload in enumerate(data):
+            logging.info("(" + str(idx + 1) + "/" + str(len(data)) + ") Extracting: " + payload['article_link'])
 
             # get content and real url using Alchemy API
             article = {}
@@ -125,5 +151,15 @@ if __name__ == "__main__":
 
     json_file = './input/prepdata.json'
     output_file = './output/bbac_1150_all.json'
-    e = Extractor(json_file, output_file)
-    e.extract(write=True)
+    # e = Extractor(json_file, output_file)
+    # e.extract(write=True)
+
+    e = Extractor()
+    user_input = {
+        "article_link": "http://bbc.in/1pDu1Xy",
+        "image_link": "https://s3.amazonaws.com/prod-cust-photo-posts-jfaikqealaka/3065-55184dfc661ac1721a0c715326298c54.jpg"
+    }
+
+    b = e.user_extract(user_input)
+
+    embed()
