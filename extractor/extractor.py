@@ -5,6 +5,7 @@ import logging
 
 from alchemy import Alchemy
 from oxford import Oxford
+from watson import Watson
 from IPython import embed
 
 
@@ -15,6 +16,7 @@ class Extractor:
         self.data = self.json_file_to_obj(json_file)
         self.alchemy = Alchemy()
         self.oxford = Oxford()
+        self.watson = Watson()
         logging.info("Ready to extract")
 
     def json_file_to_obj(self, json_file):
@@ -58,6 +60,7 @@ class Extractor:
             article['image_link'] = payload['image_link']
             article['alchemy'] = self.extract_alchemy_data(text)
             article['oxford'] = self.extract_oxford_vision_data(payload['image_link'])
+            article['watson'] = self.extract_watson_tone_data(text)
             article['targets'] = {}
 
             # store targets
@@ -67,13 +70,11 @@ class Extractor:
 
             result_obj['articles'].append(article)
 
-            break
-
         return result_obj
 
     def extract_alchemy_text(self, url):
-        resutl = self.alchemy.run(url, target='text')
-        return resutl['text'], resutl['url']
+        result = self.alchemy.run(url, target='text')
+        return result['text'], result['url']
 
     def extract_alchemy_data(self, text):
         alchemy_result = self.alchemy.run(text, target='combined', options=self.alchemy_options)
@@ -90,6 +91,9 @@ class Extractor:
 
     def extract_oxford_vision_data(self, url):
         return self.oxford.run(url, target='emotion')
+
+    def extract_watson_tone_data(self, text):
+        return self.watson.run(text, target='tone_analyzer')
 
 if __name__ == "__main__":
     logging.basicConfig(format="\033[95m\r%(asctime)s - %(levelname)s - %(message)s\033[0m", level=logging.INFO)
