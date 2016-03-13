@@ -52,15 +52,19 @@
         // console.log(cursor)
        }
 
-
-
+       var rm = false;
+       t2 = false;
         function worker() {
           // console.log("FAIL")
         $.ajax({
           dataType: "json",
           url: '/get_analysis',
+
           success: function(data) {
             // console.log(JSON.parse(data["img"]) );
+            console.log("###########")
+            console.log(data["img"])
+            console.log("##########")
             object = JSON.parse(data["img"]);
 
             for(i=0; i<object.length; i++){
@@ -78,7 +82,7 @@
                 // console.log(rect.top)
                 // console.log(rect.left - rect.width)
                 // console.log("FUUUUCK")
-                if (d!=0 && d[0]<= rect.left+rect.width && d[0] >= rect.left && d[1] >= rect.top && d[1] <= rect.top + rect.height){
+                if (d!=0 && d[0]<= rect.left+rect.width && d[0] >= rect.left && d[1] >= rect.top && d[1] <= rect.top + rect.height || true){
                     //  console.log(obj.scores);
                     //  console.log(i);
                      arr = obj.scores;
@@ -91,11 +95,13 @@
                          }
                        }
 
-                    //  ;
-                     $("#tooltip").remove();
+
                       $("div.img.img").append("<p id='tooltip'>"+ argmax.replace("\"","").replace("'", "")+"</p>");
+                      if (rm){
+                        $("#tooltip").remove();
+                      }
                     	$("#tooltip")
-                    		.css("top",((rect.top + $('div.img').offset().top) +28) + "px")
+                    		.css("top",((rect.top + $('div.img').offset().top) +28 + rect.height) + "px")
                     		.css("left",(rect.left + $('div.img').offset().left ) + "px")
                     		.fadeIn("fast");
                 }else{
@@ -110,9 +116,17 @@
                   // catch(err){
                   //   console.log("");
                   // }
-                }
+                }rm=false;
             }
-
+            topa =  document.getElementById('imagename').value;
+            t = topa.split("/")
+            t2 = t[t.length -1];
+            // console.log("debug");
+            // console.log(topa);
+            // console.log(t)
+            // console.log(t2)
+            // console.log("https://graph.facebook.com/228735667216_"+t2+"/?fields=picture,link");
+            // console.log(">>>>>>>>>.")
 
           },
           complete: function() {
@@ -121,39 +135,65 @@
             // setTimeout(worker, 100);
              }
         });
+
+
+        if (t2 != false){
+          console.log("]]]]]]]]]]]]]]]")
+          console.log(t2)
+          console.log("]]]]]]]]]]]]]]]")
+        $.ajax({dataType: "json", url: "https://graph.facebook.com/228735667216_"+t2+"/?fields=picture,link", success: function(data){
+          console.log(data);
+              console.log(data["picture"]);
+
+              picture = unescape(((data["picture"])))
+              picture = picture.split('url=')[1].split('&')[0] //.replace('%3A',':').replace('%2F','/')
+              // picture = picture.replace(/%2F/g, "/");
+              console.log(picture);
+
+              document.getElementById('btn').onclick = function() {
+                var val =picture,
+                src =  val ,
+                img = document.createElement('img');
+                console.log(">>>>>>>>>>>")
+                console.log(picture)
+                console.log(">>>>>>>>>>>")
+                img.src = src;
+
+                try{
+                  document.getElementById('img').children[2].remove();
+                }catch(err){
+
+                }
+                document.getElementById('img').appendChild(img);
+                x = true;
+                rm = true;
+                // document.body.appendChild(img);
+                $.ajax({
+                  type: 'POST',
+                  url: '/',
+                  data: {'img' : src,}
+                });
+
+                $.ajax({
+                  type: 'POST',
+                  url: '/get_analysis',
+                  data: {'img' : src,}
+                });
+              }
+
+
+        }
+
+
+      })}
         };
         //The delay is here to give time to the back end to post the
         // walk in the get walk route before attempting to draw.
         setInterval(worker,1000);
 
         x = false;
-        document.getElementById('btn').onclick = function() {
-            var val = document.getElementById('imagename').value,
-                src =  val ,
-                img = document.createElement('img');
+        console.log(t2)
 
-            img.src = src;
-
-            try{
-              document.getElementById('img').children[2].remove();
-            }catch(err){
-
-            }
-            document.getElementById('img').appendChild(img);
-            x = true;
-            // document.body.appendChild(img);
-            $.ajax({
-						type: 'POST',
-						url: '/',
-						data: {'img' : src,}
-								});
-
-            $.ajax({
-						type: 'POST',
-						url: '/get_analysis',
-						data: {'img' : src,}
-								});
-        }
     </script>
 
 
