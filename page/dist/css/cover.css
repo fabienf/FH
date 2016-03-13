@@ -50,6 +50,12 @@ body {
   text-shadow: 0 1px 3px rgba(0,0,0,.5);
 }
 
+#fbparent{
+    text-align:center;
+    
+}
+
+
 /* Extra markup and styles for table-esque vertical and horizontal centering */
 .site-wrapper {
   display: table;
@@ -77,6 +83,14 @@ body {
    font-family: 'Raleway', sans-serif;
    font-size: 500%;
    padding-bottom: 20px;
+}
+
+.aheadline {
+   font-family: 'Raleway', sans-serif;
+   font-size: 200%;
+   text-align: left;
+   padding-left: 15px; 
+   padding-bottom: 10px;
 }
 
 
