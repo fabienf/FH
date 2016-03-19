@@ -86,11 +86,17 @@
 
 
           if("wat" in data){
-             k = data["wat"]
-            //  g = $(k).show();
             try{
+              k = data["wat"]
+              kl = data["feels"][0]
+              kll = data["tax"]
+              //  g = $(k).show();
              g = document.getElementById(k ) ;
              g.style.display = "";
+             g = document.getElementById(kl) ;
+             g.style.display = ""
+             g = document.getElementById(kll) ;
+             g.style.display = ""
              console.log(document.getElementById(k))
              console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
            }catch(err){}
@@ -183,6 +189,10 @@
               // console.log(picture);
 
               document.getElementById('btn').onclick = function() {
+
+                sd = '<div class="fb-post" data-href= "https://www.facebook.com/bbcnews/posts/10153446879122217" data-width="400"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/bbcnews/posts/10153446086387217">Posted by <a href="https://www.facebook.com/facebook/">Facebook</a> on&nbsp;<a href="https://www.facebook.com/bbcnews/posts/10153446086387217">Thursday, August 27, 2015</a></blockquote></div></div>'
+                var d1 = document.getElementById('fb');
+                d1.insertAdjacentHTML('afterend', sd);
                 var val =picture,
                 src =  val ,
                 // $("#img").remove()
@@ -217,7 +227,7 @@
                 $.ajax({
                   type: 'POST',
                   url: '/',
-                  data: {'img' : src, "link": data["link"]}
+                  data: {'img' : src, "link": data["link"], "l2": document.getElementById('ttx').value}
                 });
 
                 $.ajax({

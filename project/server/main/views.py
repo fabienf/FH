@@ -65,9 +65,12 @@ e = Extractor()
 def home():
     print request.form
     vapi = None
+    ll = None
     if request.method == 'POST':
          i = request.form["img"]
          l = request.form["link"]
+         ll = request.form["l2"]
+         print ll, "222333ljkj"
          user_input = {
              "article_link": l,
              "image_link": i
@@ -84,11 +87,11 @@ def home():
          x = list()
          for j in json.loads(vapi):
               print j,"~~~~~~~~~~####"
-              x .append(j["scores"].keys()[np.argmax(j["scores"].values)]  )
+              x .append(j["scores"].keys()[np.argmax(j["scores"].values())]  )
 
          vap.dat = {"img":vapi,"wat" : enum[np.argmax(b) ], "xd": x, "tax": t}
         #  print vapi
-    return render_template('main/home.html', vap= vapi)
+    return render_template('main/home.html', vap= vapi, l2=ll)
 
 
 
