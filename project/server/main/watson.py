@@ -9,8 +9,8 @@ class Watson:
         logging.debug("Loading Watson...")
 
         self.tone_analyzer = ToneAnalyzerV3Beta(
-            username='61b2dfb6-3791-4df7-ab17-3560e05bcaa0',
-            password='EzTU0zkWNqSK',
+            username='50705f69-a1ad-4432-8eaa-25c0c7b23bb9',
+            password='CVK1hMPA1V3o',
             version='2016-02-11')
 
     def run(self, data, target):
