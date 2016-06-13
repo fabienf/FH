@@ -55,7 +55,7 @@ class VisionAPI:
 
 
 vap = VisionAPI()
-enum = ["love", "haha", "yay", "wow", "sad", "angry"]
+enum = ["love", "haha", "wow", "sad", "angry"]
 e = Extractor()
 
 

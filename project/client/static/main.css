@@ -94,11 +94,6 @@ div.img label{
 
 
 
-#btn{
-  background-color:#808080 !important;
-}
-
-
 .desc{
   padding: 10px;
 }
@@ -166,9 +161,6 @@ div.desc {
 }
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
-    background-color: 	#808080;
-}
 
 /*end-of-stuff*/
 
@@ -200,10 +192,7 @@ div.desc {
     bottom: 0px;
     z-index: -2;
 }
-body {
 
-  background-color: 	#808080;
-}
 .membersbackground {
   background-color: white;
   position: absolute;
